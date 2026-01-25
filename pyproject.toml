@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "drug-exp-compatibility"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"  # 強制限制 Python 版本，避開 3.12
+numpy = "1.24.3"         # 鎖定舊版 numpy，避免 2.0 版導致災難
+pandas = "2.0.3"
+scipy = "1.10.1"
+scikit-learn = "1.2.2"
+joblib = "1.2.0"
+matplotlib = "3.7.2"
+seaborn = "0.12.2"
+gensim = "4.3.0"
+xgboost = "2.0.1"
+tqdm = "4.65.0"
+pillow = "9.4.0"
+ipython = "8.15.0"
+streamlit = "1.29.0"
+streamlit-option-menu = "0.3.6"
+pubchempy = "1.0.4"
+pickle-mixin = "^1.0.2"
+rdkit = "2023.3.3"       # 明確指定穩定的 RDKit 版本
+mol2vec = {git = "https://github.com/phuongnvp/mol2vec.git"}
+openpyxl = "^3.1.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
