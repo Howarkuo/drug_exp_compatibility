@@ -1,0 +1,136 @@
+Here is a cleaned-up, structured version of your progress log. It organizes your actions into clear phases: **Environment Setup**, **Logic Verification**, **Data Analysis**, and **Data Processing**.
+
+You can save this as `progress_log_clean.md` or replace the content of your `log.txt`.
+
+---
+
+# Project Progress Log: Drug-Excipient Compatibility
+
+**Current Status:** Environment stable, Data processed, Ready for Training (SMOTE).
+
+## Phase 1: Environment & Installation
+
+**Objective:** Establish a stable Python environment compatible with older scientific packages (`mol2vec`, `scipy < 1.12`).
+
+* **Python Version:** Downgraded to **3.10.11** (to avoid Python 3.12 compatibility issues).
+* Path: `C:\Users\howar\AppData\Local\Programs\Python\Python310`
+
+
+* **Poetry Setup:**
+```powershell
+poetry env use "C:\Users\howar\AppData\Local\Programs\Python\Python310\python.exe"
+$env:PYTHONUTF8=1
+
+```
+
+
+* **Dependencies Installed:**
+```toml
+# Scientific Stack
+numpy==1.24.3
+pandas==2.0.3
+scipy==1.10.1
+scikit-learn==1.2.2
+
+# Visualization
+matplotlib==3.7.2
+seaborn==0.12.2
+
+# Machine Learning & NLP
+gensim==4.3.0
+xgboost==2.0.1
+imbalanced-learn (Added for SMOTE)
+
+# Utilities & UI
+joblib==1.2.0
+tqdm==4.65.0
+pillow==9.4.0
+ipython==8.15.0
+streamlit==1.29.0
+streamlit-option-menu==0.3.6
+pubchempy==1.0.4
+pickle-mixin
+openpyxl (For Excel I/O)
+
+# Chemistry (Critical)
+rdkit
+mol2vec = {git = "https://github.com/phuongnvp/mol2vec.git"}
+
+```
+
+
+* **Sanity Check:**
+* `import rdkit; import mol2vec`  **✅ Environment OK!**
+
+
+
+---
+
+## Phase 2: Logic Verification (`test_envv.py`)
+
+**Objective:** specific `mol2vec` API usage and confirm vector dimensions.
+
+* **Logic Flow:**
+
+
+* **Critical Fixes (Old vs New):**
+
+| Feature | 🔴 Old Logic (Failed) | ✅ New Logic (Success) |
+| --- | --- | --- |
+| **Import** | `MolSentence` | `MolSentence`, `mol2alt_sentence` |
+| **Radius Param** | `MolSentence(mol, radius=1)` | `MolSentence(mol2alt_sentence(mol, 1))` |
+| **Preprocessing** | None (Raw SMILES) | `Chem.AddHs(mol)` (Mandatory Hydrogens) |
+| **Result** | `TypeError` | **Success** |
+
+* **Observation:** The model file is named `model_300dim.pkl`, but the actual output vector dimension is **(1, 100)**. We proceed using 100 dimensions.
+
+---
+
+## Phase 3: Data Analysis (`0125_check_format.py`)
+
+**Objective:** Assess class balance in `2024_Drug_compatibility_dataset.xlsx`.
+
+* **Total Rows:** 3,544
+* **Class Distribution:**
+* Compatible (0): 3,200
+* Incompatible (1): 344
+
+
+* **Imbalance Ratio:** **9.3 : 1**
+* **Conclusion:** High class imbalance confirmed. Simple accuracy metrics will be misleading. **Action required:** Implement SMOTE or Class Weights during training.
+
+---
+
+## Phase 4: Feature Engineering (`0125_process_data.py`)
+
+**Objective:** Transform raw Excel text into numerical vectors for XGBoost.
+
+### Transformation Logic
+
+* **Micro Process (Per Molecule):**
+* Input: "C(CO)O" (String)
+* Process: RDKit  Mol2vec  Word2Vec
+* Output: Numpy Array (Shape: `100,`)
+
+
+* **Macro Process (Full Dataset):**
+1. **Stream 1 (API):** 3,544 rows   matrix.
+2. **Stream 2 (Excipient):** 3,544 rows   matrix.
+3. **Concatenation:** Combine Metadata + API Matrix + Excipient Matrix.
+
+
+
+### Final Output Dimensions
+
+* **Metadata (3 cols):** `API_CID`, `Exp_CID`, `Label`
+* **Vectors (200 cols):** `API_0`...`API_99` + `Exp_0`...`Exp_99`
+* **Total Width:**  columns.
+
+| Stage | Data Structure | Dimensions () | Status |
+| --- | --- | --- | --- |
+| **Input** | Excel DataFrame |  | Raw |
+| **Processing** | Vector Lists |  (x2) | Converted |
+| **Output** | Final CSV | **** | **Saved** |
+
+* **Success Rate:** 3544 / 3544 (100% data recovery).
+* **Next Step:** Train XGBoost model using this CSV.

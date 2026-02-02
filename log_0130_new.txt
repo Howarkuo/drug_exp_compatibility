@@ -1,0 +1,53 @@
+# log 
+
+1. Setup:  UI (streamlit), ML libraries(RDKit, Mordred, Scikit-learn implied by algorithms like XGBoost/RF), and RDLogger.DisableLog('rdApp.*') to suppress RDKit warnings.
+2. Database Lookup: If input exists, return known label, but use random.uniform(95, 100) to fake a "confidence score".
+3. Real-time Prediction (Stacking Ensemble):
+3.1 Preprocessing: Get SMILES -> AddHs (Add Hydrogens).
+3.2 Pipeline A (Mol2Vec):Convert to vector using model_300dim.pkl.Predict probability using model_mol2vec.pkl -> Output: y_pred_mol2vec.
+Step 3.2a (Embedding): Use model_300dim.pkl (Word2Vec) to convert chemical sentences into Numerical Vectors (Features).
+Step 3.2b (Classification): Use model_mol2vec.pkl (likely a Random Forest or XGBoost trained on those vectors) to read those vectors and output the probability y_pred_mol2vec.
+3.3 Pipeline B (2D Descriptors):Calculate chemical properties (Molecular Weight, LogP, etc.).Predict probability using model_2D.pkl -> Output: y_pred_2D.
+3.4 Meta-Model (Stacking):Feed both probabilities (y_pred_mol2vec, y_pred_2D) into model_lr.pkl (Logistic Regression).
+Final Output: Class prediction (Compatible/Incompatible) and Probability (probs0, probs1).
+
+# data source
+DE-Interact: Predictive Machine Learning for Drug-Excipient Compatibility
+peer-reviewed research papers(4.80%) , the USFDA database, and patented documents.
+
+Definition of Incompatible
+ DSC (Differential Scanning Calorimetry): Incompatibility is defined by significant changes in melting points, such as peak shifting, peak broadening, or the complete disappearance of characteristic peaks, indicating thermodynamic instability,.
+• FTIR (Fourier Transform Infrared Spectroscopy): Incompatibility is identified by the disappearance of characteristic functional group peaks (e.g., NH stretching) or the appearance of new bands, suggesting chemical bonding changes (such as imine formation),.
+• Chromatography (HPTLC/HPLC): Incompatibility is defined by the quantitative deduction (loss) of the drug over time or the distortion of chromatographic peaks in aged samples,.
+• Visual/Morphological: In some cases, such as with Brinzolamide and PEG 400, incompatibility was defined by a visible color change indicating high reaction kinetics
+
+
+# next Step: Deal with the overfitting model (too good on test data but the model fails in validation set)
+look into Wraps data in DfVec class, then looks for .vec attribute.
+
+Feature,Your Third Script (Failed),New Logic (Works)
+Vector Handling,"Wraps data in DfVec class, then looks for .vec attribute.",Uses raw NumPy array directly.
+Why it breaks,"Newer mol2vec returns arrays, not objects. Asking an array for .vec crashes Python.","It expects an array, so it works perfectly."
+Data Cleanup,Creates a messy DataFrame and tries to delete 10+ specific columns.,"Creates a clean, new array with only the data needed."    
+
+
+# next step 0201
+step1 data split 60 20 20 train valid test(model_selection.py)
+step2 handle imbalance :Support Vector machine - Synthetic Minority Oversampling Technique
+
+# consideration:
+# If minority class is disjointed -> use SMOTE
+# If classes overlap significantly and classifier struggle to find clean line to separate them
+
+
+# progression
+for 3544dataset in 200 dimension, 60/20/20 train/val/test , # for train dataset only (1926- 1920/206)-> augmentation SVMSMOTE: incompatible from 206 -> 1920, -> grid search for random forest Fitting 5 folds for each of 12 candidates, totalling 60 fits -> result  Validation Accuracy: 95.00%
+
+Test Accuracy: 94.78%  Recall (Class 1): 0.72 (在 69 個真的不相容案例中，抓出了 50 個)。
+
+Precision (Class 1): 0.74 (當模型說是「不相容」時，有 74% 的機率是對的)。
+
+F1-Score: 0.73 (這對於極度不平衡的資料集來說，是非常優秀的分數)。
+
+Ref:
+https://lufor129.medium.com/%E8%B3%87%E6%96%99%E7%A7%91%E5%AD%B8-%E4%B8%80-%E8%99%95%E7%90%86%E4%B8%8D%E5%B9%B3%E8%A1%A1%E8%B3%87%E6%96%99%E5%B9%BE%E7%A8%AE%E6%96%B9%E6%B3%95-39c25d06a6cb

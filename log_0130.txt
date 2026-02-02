@@ -1,0 +1,32 @@
+1. pipeline verified
+(mol2vecm, rdkit version conflict) smiles -> addhs -> molsentence -> 100 D vector
+
+2. data insight: 
+data incompatibility 9.3 :1 (0125_check_format_dataset.csv.py)
+
+3. Vectorization Protocol - Final input data structure (3544, 203)
+columns 0-2 (CID,Label) (2024_Drug_compatibility_dataset.xlsx_train_data_vectors_final.csv.)
+
+
+Next step 
+
+1. data spliting (60 / 20 / 20 training validation testing )
+2. Handle imbalance 
+2. train with random forest 
+3. report : confusion matrix
+
+Test 
+test with absorbic acid test_eddie.csv on predicting performance 
+
+
+Trial- Streamlit web application (model_deploy.py)
+poetry run streamlit run model_deploy.py
+
+1. setup (UI, ML (joblib, genism) rdkit loggin (disablelog('rdapp.* ') to suppress warning message from rdkit  ))
+2. if input is in database: look for outcome , but little trick to output random confidence score from 95 -100
+3. if input is not in database - realtime prediction 
+3.1 get smiles and addhs , 
+3.2 a (Embedding) use pre-trained Word2Vec model (model_300dim.pkl) to convert into numerical output (feature) (mol2alt_sentenc) 
+3.2 b (classification) use model_mol2vec.pkl(likely a Random Forest or XGBoost trained on those vectors) to read those vectors and output the probability -> output: y_pred_mol2vec
+3.3 use pretrained getMolDescriptors(model_2D.pkl) to get chemical properties feature - > output: y_pred_2D
+3.4 combine outputs t into a final Logistic Regression model (model_lr.pkl) and get class prediction (probs0, probs1).

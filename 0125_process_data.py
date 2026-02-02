@@ -45,7 +45,7 @@ def process_final():
             # 我們只傳入一個句子，所以取第 0 個結果
             vector_matrix = sentences2vec([sentence], w2v_model, unseen='UNK')
             
-            # ⚠️ 關鍵修正在此：直接回傳，不要加 .vec
+            #  關鍵修正：直接回傳，不要加 .vec
             return vector_matrix[0] 
             
         except Exception:
