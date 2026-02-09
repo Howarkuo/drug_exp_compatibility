@@ -67,7 +67,7 @@ Standard models use a 50% probability threshold ($p > 0.5$). In pharmaceutical s
 * **Impact:** Any pair with $>25\%$ risk probability is flagged as "Incompatible". This aligns with the "Better Safe Than Sorry" principle.
 
 ---
-![Validation Note](NoteFeb9,2026_page-0001.jpg) 
-![Validation Note](NoteFeb9,2026_page-0002.jpg) 
-![Validation Note](NoteFeb9,2026_page-0003.jpg) 
-![Validation Note](NoteFeb9,2026_page-0004.jpg)
+![Validation Note](Note/NoteFeb9,2026_page-0001.jpg) 
+![Validation Note](Note/NoteFeb9,2026_page-0002.jpg) 
+![Validation Note](Note/NoteFeb9,2026_page-0003.jpg) 
+![Validation Note](Note/NoteFeb9,2026_page-0004.jpg)
