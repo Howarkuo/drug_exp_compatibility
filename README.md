@@ -46,26 +46,43 @@ We compared our MLP + Mordred model against the benchmarks reported in the origi
 
 ---
 
-## 🛠️ System Architecture
+# 🌐 Web Deployment Architecture (Streamlit)
 
-### 1. Data Pipeline
-* **Dataset:** 3,544 drug-excipient pairs (replicated from source).
-* **Feature Engineering:**
-    * **Source:** Mordred Calculator (1,613 features per molecule).
-    * **Input Vector:** API Features + Excipient Features = ~3,226 raw features.
-    * **Selection:** Applied `VarianceThreshold` to remove constant columns.
-    * **Final Input:** 2,738 active features representing topology, charge, and physical properties.
+The project features a high-performance web interface (`app.py`) built with **Streamlit**, enabling researchers to perform real-time compatibility screening without writing code.
+![Deployment](model_deploy_v2.png) 
 
-### 2. Model Architecture (MLP)
-* **Algorithm:** Multilayer Perceptron Classifier (Neural Network).
-* **Solver:** `LBFGS` (Optimized for smaller datasets with high dimensionality).
-* **Scaling:** `StandardScaler` (Crucial for Mordred features which vary in scale).
 
-### 3. Safety-First Thresholding
-Standard models use a 50% probability threshold ($p > 0.5$). In pharmaceutical safety, **Recall** (avoiding false negatives) is more critical than Precision.
-* **Adjustment:** We calibrated the decision threshold to **0.25 (25%)**.
-* **Impact:** Any pair with $>25\%$ risk probability is flagged as "Incompatible". This aligns with the "Better Safe Than Sorry" principle.
 
+---
+
+## ⚙️ Workflow Pipeline
+
+### 1. Intelligent Input Resolution
+To handle the variety of chemical naming conventions, the app uses a **Dual-Strategy Fetcher**:
+* **Primary:** `PubChemPy` API search by common name or CID.
+* **Fallback:** `CIRpy` (Chemical Identifier Resolver) to ensure complex inorganic salts (e.g., Magnesium Aluminum Silicate) are correctly mapped to SMILES strings.
+
+### 2. On-the-fly Feature Engineering
+Once the SMILES strings are retrieved, the system processes them through the **Mordred Calculator**:
+* **Real-time Generation:** Computes 2,738 descriptors instantly.
+* **Standardization:** Applies a pre-loaded `StandardScaler` (fitted on the training set) to normalize features to **Mean=0** and **Std=1**.
+
+### 3. Neural Network Inference
+The normalized feature vector is passed to the trained **Multilayer Perceptron (MLP)**:
+* **Output:** A continuous "Risk Score" representing the probability of incompatibility ($0.0 \rightarrow 1.0$).
+
+---
+
+## ⚖️ Decision Logic: Safety-First Thresholding
+
+In pharmaceutical formulation, a **False Negative** (missing a real risk) is significantly more dangerous than a **False Positive**. To prioritize patient safety, we bypass the default 50% classification threshold.
+
+| Logic | Condition | Visual Indicator |
+| :--- | :--- | :--- |
+| **Strict Risk Threshold** | **Risk Score > 25%** | 🚨 **Incompatible** |
+| **Safety Margin** | **Risk Score < 25%** | ✅ **Compatible** |
+
+> **Note:** By setting the threshold at 25%, the model acts as a "high-sensitivity" filter, ensuring that even marginal risks are flagged for human review.
 ---
 ![Validation Note](Note/NoteFeb9,2026_page-0001.jpg) 
 ![Validation Note](Note/NoteFeb9,2026_page-0002.jpg) 
