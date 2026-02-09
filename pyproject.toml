@@ -3,9 +3,9 @@ name = "drug-exp-compatibility"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-
+package-mode = false
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"  # 強制限制 Python 版本，避開 3.12
+python = ">=3.11,<3.12" # For padelpy >=3.11 and scipy  <3.12
 numpy = "1.24.3"         # 鎖定舊版 numpy，避免 2.0 版導致災難
 pandas = "2.0.3"
 scipy = "1.10.1"
@@ -26,6 +26,9 @@ rdkit = "2023.3.3"       # 明確指定穩定的 RDKit 版本
 mol2vec = {git = "https://github.com/phuongnvp/mol2vec.git"}
 openpyxl = "^3.1.5"
 imbalanced-learn = "0.11.0"
+cirpy = "^1.0.2"
+padelpy = "^0.1.16"
+mordred = "^1.2.0"
 
 [build-system]
 requires = ["poetry-core"]

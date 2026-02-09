@@ -2,7 +2,12 @@
 # --- User Data ---
 2024_Drug_compatibility_dataset.xlsx
 2024_Drug_compatibility_dataset.xlsx_train_data_vectors_final.csv
+*.pkl
+*.csv
 
+
+Padel
+padel_direct_temp
 # --- System & Environment ---
 .venv/
 __pycache__/

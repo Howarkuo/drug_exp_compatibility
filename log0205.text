@@ -1,0 +1,5 @@
+change data embedding 
+change to MLP
+to prevent overfitting : F1 score 
+Recall: 0.72 
+Precision: 0.74
