@@ -84,10 +84,6 @@ In pharmaceutical formulation, a **False Negative** (missing a real risk) is sig
 
 > **Note:** By setting the threshold at 25%, the model acts as a "high-sensitivity" filter, ensuring that even marginal risks are flagged for human review.
 ---
-![Validation Note](Note/NoteFeb9,2026_page-0001.jpg) 
-![Validation Note](Note/NoteFeb9,2026_page-0002.jpg) 
-![Validation Note](Note/NoteFeb9,2026_page-0003.jpg) 
-![Validation Note](Note/NoteFeb9,2026page-0004.jpg)
 
 
 # 🚀 New Progression: Feature Insight & Rigorous Validation (Feb 2026)
@@ -154,3 +150,9 @@ We evaluated three model configurations on a new, unseen external test set. This
 1.  **UMAP Visualization:** Apply Uniform Manifold Approximation and Projection (UMAP) to map the newly added 162 validation samples onto the original training landscape (`2024_Drug_compatibility_dataset.xlsx`) to visualize domain shift.
 2.  **Cluster Analysis:** Perform clustering on the Top 20 API and Excipient features identified above to detect specific chemical sub-groups prone to incompatibility.
 3.  **PolyBERT Implementation:** Replace standard descriptors for polymer excipients with **PolyBERT** (GitHub: `Ramprasad-Group/polyBERT`). This should provide superior embeddings for complex polymers compared to calculating descriptors designed for small molecules.
+
+---
+![Validation Note](Note/NoteFeb9,2026_page-0001.jpg) 
+![Validation Note](Note/NoteFeb9,2026_page-0002.jpg) 
+![Validation Note](Note/NoteFeb9,2026_page-0003.jpg) 
+![Validation Note](Note/NoteFeb9,2026page-0004.jpg)

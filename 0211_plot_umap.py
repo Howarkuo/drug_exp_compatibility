@@ -63,23 +63,45 @@ if __name__ == "__main__":
     X_train_raw = pd.concat([df_train_api, df_train_exp], axis=1)
     X_train = X_train_raw.reindex(columns=required_features, fill_value=0)
 
-    # --- C. 合併並標記來源 ---
-    print("\n🔗 Combining and Scaling Data...")
-    X_train['Dataset'] = 'Training Data (3544 items)'
-    X_test['Dataset'] = 'Validation Data (162 items)'
+    # # --- C. 合併並標記來源 ---
+    # print("\n🔗 Combining and Scaling Data...")
+    # X_train['Dataset'] = 'Training Data (3544 items)'
+    # X_test['Dataset'] = 'Validation Data (162 items)'
     
-    X_combined = pd.concat([X_train, X_test], axis=0).reset_index(drop=True)
-    labels = X_combined['Dataset'].values
+    # X_combined = pd.concat([X_train, X_test], axis=0).reset_index(drop=True)
+    # labels = X_combined['Dataset'].values
     
-    # 移除 Dataset 標籤並進行標準化 (UMAP 必須先標準化)
-    X_features = X_combined.drop(columns=['Dataset'])
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X_features)
+    # # 移除 Dataset 標籤並進行標準化 (UMAP 必須先標準化)
+    # X_features = X_combined.drop(columns=['Dataset'])
+    # scaler = StandardScaler()
+    # X_scaled = scaler.fit_transform(X_features)
 
-    # --- D. 執行 UMAP 降維 ---
-    print("🗺️ Running UMAP Dimension Reduction (Transforming ~2700D to 2D)...")
+    # # --- D. 執行 UMAP 降維 ---
+    # print("🗺️ Running UMAP Dimension Reduction (Transforming ~2700D to 2D)...")
+    # reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, random_state=42)
+    # embedding = reducer.fit_transform(X_scaled)
+
+    # --- C. 分開標準化 (嚴謹做法: Scaler 只 fit Train) ---
+    print("\n🔗 Scaling Data (Fit on Train, Transform on Test)...")
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test) # 只做 transform
+
+    # --- D. 執行 UMAP 降維 (嚴謹做法: UMAP 只 fit Train) ---
+    print("🗺️ Running UMAP Dimension Reduction...")
     reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, random_state=42)
-    embedding = reducer.fit_transform(X_scaled)
+    
+    # 1. 先把訓練集降維 (Fit + Transform)
+    embedding_train = reducer.fit_transform(X_train_scaled)
+    
+    # 2. 把測試集投影到剛建好的空間中 (Transform Only)
+    embedding_test = reducer.transform(X_test_scaled)
+    
+    # 3. 把座標合併起來準備畫圖
+    embedding = np.vstack((embedding_train, embedding_test))
+    
+    # 建立標籤
+    labels = ['Training Data (3544 items)'] * len(X_train) + ['Validation Data (162 items)'] * len(X_test)
 
     # --- E. 繪製精美散佈圖 ---
     print("🎨 Plotting visualization...")
