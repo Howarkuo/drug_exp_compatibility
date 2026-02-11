@@ -1,0 +1,5 @@
+## How to transform CID to SMILES?
+1. Integer (CID) -> PubChem Object
+2. PubChem Object -> Inchlkey (The "Universal Key")
+3. Inchlkey -> SMILES
+

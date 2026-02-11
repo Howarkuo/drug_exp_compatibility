@@ -88,3 +88,69 @@ In pharmaceutical formulation, a **False Negative** (missing a real risk) is sig
 ![Validation Note](Note/NoteFeb9,2026_page-0002.jpg) 
 ![Validation Note](Note/NoteFeb9,2026_page-0003.jpg) 
 ![Validation Note](Note/NoteFeb9,2026page-0004.jpg)
+
+
+# 🚀 New Progression: Feature Insight & Rigorous Validation (Feb 2026)
+
+Moving beyond initial training metrics, we have conducted a deep dive into feature interpretability and tested the models against a challenging, newly curated external validation set.
+
+---
+
+## 🧬 Feature Importance Analysis (Decision Tree Interpretation)
+
+To unlock the "Black Box" of our predictors, we utilized Decision Trees to extract the most informative Mordred descriptors.
+
+* **Pros:** Highly interpretable and visualizable.
+* **Cons:** Potential for overfitting (even after tuning).
+
+### Top Critical API Features
+For Active Pharmaceutical Ingredients (APIs), the model heavily relies on aromaticity and ring structures to determine compatibility risks.
+
+| Rank | Feature | Description | Contribution (%) |
+| :--- | :--- | :--- | :--- |
+| 1 | API_nAromBond | Number of aromatic bonds | 1.40% |
+| 2 | API_SRW09 | Self-Returning Walk (Topological shape) | 1.27% |
+| 3 | API_naRing | Number of aromatic rings | 1.21% |
+| 4 | API_Xch-6d | Chi path cluster (Connectivity) | 1.18% |
+| 5 | API_SRW05 | Self-Returning Walk count 5 | 1.14% |
+
+### Top Critical Excipient Features
+For Excipients, the most predictive features relate to autocorrelation (spatial distribution of properties) and ionization potential.
+
+| Rank | Feature | Importance Score | Global Contribution (%) |
+| :--- | :--- | :--- | :--- |
+| 1 | EXP_GATS1v | Geary coefficient (Van der Waals volume) | 0.344% |
+| 2 | EXP_GATS3m | Geary coefficient (Mass) | 0.179% |
+| 3 | EXP_AATSC0s | Avg centered Broto-Moreau (Intrinsic state) | 0.148% |
+| 4 | EXP_MINsOH | Minimum atom-type E-state: -OH | 0.144% |
+| 5 | EXP_AATSC1c | Avg centered Broto-Moreau (Charge) | 0.141% |
+
+---
+
+## 📉 External Validation Benchmarks
+
+We evaluated three model configurations on a new, unseen external test set. This test set is significantly harder than the initial random split, offering a realistic view of model generalization.
+
+| Model | Accuracy | Precision (Incompatible) | Recall (Incompatible) | F1-Score (Incompatible) | Support ($N$) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **RF + Mordred** | 0.61 | 0.53 | 0.51 | 0.52 | 157* |
+| **RF + Mol2Vec** | 0.67 | 0.68 | 0.37 | 0.48 | 152 |
+| **MLP + Mordred** | 0.62 | 0.56 | 0.29 | 0.38 | 152 |
+
+> ⚠️ **Important Note on Data Consistency:**
+> You may observe a discrepancy in sample size for the RF + Mordred model ($N=157$) compared to others ($N=152$).
+>
+> * **Cause:** Following a code review by Eddie, we identified and fixed a bug in the CID retrieval process.
+> * **Impact:** This fix successfully recovered 4 previously unparseable samples (increasing the set from 152 to 157). We apologize for this minor inconsistency across the benchmark tables; however, the RF + Mordred results reflect the most complete dataset.
+
+### Performance Interpretation
+* **RF + Mordred** achieved the highest **Recall for Incompatibility (0.51)** among the validation tests. This aligns with our safety-first philosophy—it is better to flag potential risks than to miss them.
+* **RF + Mol2Vec** had higher overall accuracy but suffered from low recall (0.37) on the minority class (Incompatible), proving it is less safe for risk screening.
+
+---
+
+## 🔭 Next Steps & Roadmap
+
+1.  **UMAP Visualization:** Apply Uniform Manifold Approximation and Projection (UMAP) to map the newly added 162 validation samples onto the original training landscape (`2024_Drug_compatibility_dataset.xlsx`) to visualize domain shift.
+2.  **Cluster Analysis:** Perform clustering on the Top 20 API and Excipient features identified above to detect specific chemical sub-groups prone to incompatibility.
+3.  **PolyBERT Implementation:** Replace standard descriptors for polymer excipients with **PolyBERT** (GitHub: `Ramprasad-Group/polyBERT`). This should provide superior embeddings for complex polymers compared to calculating descriptors designed for small molecules.

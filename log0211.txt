@@ -1,0 +1,159 @@
+
+
+
+Result
+# ==================================================
+# 🏆 Top 20 Most Informative Features for API and Excipient Compatibility  (Mordred)
+# Decision Tress pros: easily visualized and interpreted / Cons: Even after tuning it might still overfit 
+# ==================================================
+#       Feature  Contribution (%)
+# API_nAromBond              1.40
+#     API_SRW09              1.27
+#    API_naRing              1.21
+#    API_Xch-6d              1.18
+#     API_SRW05              1.14
+#   API_n5aRing              1.12
+#   API_naHRing              1.10
+#   API_n5HRing              0.85
+#     API_piPC2              0.83
+#  API_SMR_VSA3              0.72
+# API_LabuteASA              0.71
+#     API_piPC8              0.70
+#     API_Xp-4d              0.70
+#     API_ATS1m              0.70
+# API_nAromAtom              0.69
+#    API_n5Ring              0.67
+#     API_MWC09              0.67
+#     API_SRW07              0.62
+#  API_nBondsKD              0.60
+#    API_MAXaaN              0.56
+
+
+Feature,Importance_Score,Global (%),Relative_in_EXP (%)
+EXP_GATS1v,0.0034425215177991356,0.344,1.95
+EXP_GATS3m,0.0017869969053029907,0.179,1.01
+EXP_AATSC0s,0.0014773356347910532,0.148,0.84
+EXP_MINsOH,0.0014444761413960087,0.144,0.82
+EXP_AATSC1c,0.0014142230421090355,0.141,0.8
+EXP_GATS1i,0.0012118810416963817,0.121,0.69
+EXP_AATSC0v,0.0011387231392211766,0.114,0.64
+EXP_GATS1se,0.0011007594577744214,0.11,0.62
+EXP_AATS0Z,0.0010562631593789206,0.106,0.6
+EXP_ATSC0c,0.0010121178550414232,0.101,0.57
+EXP_AMW,0.0009714265466913237,0.097,0.55
+EXP_GATS3Z,0.0009054868282090505,0.091,0.51
+EXP_ATSC1p,0.0008969015818937331,0.09,0.51
+EXP_AXp-2d,0.0008945800820017702,0.089,0.51
+EXP_AXp-0dv,0.0008893258359074917,0.089,0.5
+EXP_MDEO-11,0.0008785746001918789,0.088,0.5
+EXP_AATSC1s,0.0008750565225534601,0.088,0.5
+EXP_MATS1dv,0.0008681085420505274,0.087,0.49
+EXP_AATS1v,0.0008680310068193067,0.087,0.49
+EXP_AETA_beta,0.0008630885342908648,0.086,0.49
+EXP_GATS1p,0.0008574437167948088,0.086,0.49
+EXP_MATS2v,0.0007978526509550124,0.08,0.45
+EXP_BCUTd-1l,0.0007889363229636866,0.079,0.45
+EXP_GATS1pe,0.00070555853601777,0.071,0.4
+EXP_AATS4i,0.0007002901384419105,0.07,0.4
+EXP_AATS1se,0.0006962553625089136,0.07,0.39
+EXP_AETA_dBeta,0.0006945331390693599,0.069,0.39
+EXP_AATS1are,0.0006869663974580209,0.069,0.39
+EXP_MIC5,0.0006613765678666037,0.066,0.37
+EXP_Mv,0.0006416339287954284,0.064,0.36
+EXP_AATSC1p,0.0006214104216392376,0.062,0.35
+EXP_AATS3i,0.0006180021517325249,0.062,0.35
+EXP_AATS3se,0.0006121946217620056,0.061,0.35
+EXP_MATS1pe,0.0005832089975630949,0.058,0.33
+EXP_RPCG,0.000570755657480147,0.057,0.32
+EXP_AXp-2dv,0.0005678503474870052,0.057,0.32
+EXP_HybRatio,0.0005554327245235199,0.056,0.31
+EXP_AATSC3v,0.0005414506032582876,0.054,0.31
+EXP_MAXsOH,0.000537825203585905,0.054,0.3
+EXP_GATS1d,0.0005374274918614278,0.054,0.3
+EXP_GATS1are,0.0005188247469452028,0.052,0.29
+EXP_AATSC2s,0.0005159463762007917,0.052,0.29
+EXP_ATSC1c,0.0005140062364130079,0.051,0.29
+EXP_AATSC2m,0.0005104285900698721,0.051,0.29
+EXP_EState_VSA10,0.0004985499290474378,0.05,0.28
+EXP_MATS2d,0.00048667380876059346,0.049,0.28
+EXP_MATS4p,0.00048519834927224415,0.049,0.27
+EXP_MATS2p,0.0004834669564558046,0.048,0.27
+EXP_BCUTse-1h,0.00048017251382307633,0.048,0.27
+EXP_ECIndex,0.00047587505458711126,0.048,0.27
+EXP_GATS2c,0.00047569507669591616,0.048,0.27
+EXP_AATSC4Z,0.00047476129355041014,0.047,0.27
+EXP_Xc-3d,0.0004654989216884539,0.047,0.26
+EXP_GATS2pe,0.00046290793672880003,0.046,0.26
+EXP_ATSC8s,0.00046024028808580174,0.046,0.26
+EXP_GATS5dv,0.0004597077354542961,0.046,0.26
+EXP_MATS1c,0.00045857278932472605,0.046,0.26
+EXP_piPC1,0.00044911129126556476,0.045,0.25
+EXP_AATSC6pe,0.0004421682698348474,0.044,0.25
+EXP_nCl,0.00043799738314467725,0.044,0.25
+EXP_JGI4,0.0004359915261225013,0.044,0.25
+
+##RF + Mordred 
+
+Test Report (Accuracy: 0.6115)
+============================================================
+Confusion Matrix:
+[[63 29]
+ [32 33]]
+------------------------------
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.66      0.68      0.67        92
+           1       0.53      0.51      0.52        65
+
+    accuracy                           0.61       157
+   macro avg       0.60      0.60      0.60       157
+weighted avg       0.61      0.61      0.61       157
+
+## RF+Mol2Vec
+
+OVERALL ACCURACY: 0.6711
+=========================================
+
+📊 CLASSIFICATION REPORT
+              Precision    Recall    F1-Score   Support
+Class 0 (Neg)   0.67        0.88       0.76        90
+Class 1 (Pos)   0.68        0.37       0.48        62
+
+Accuracy:                              0.67       152
+Macro Avg:      0.67        0.62       0.62       152
+Weighted Avg:   0.67        0.67       0.65       152
+
+-----------------------------------------
+
+📉 CONFUSION MATRIX
+
+            Predicted 0    Predicted 1
+Actual 0        79             11
+Actual 1        39             23
+
+## MLP+ Mordred 
+                        Precision    Recall    F1-Score   Support
+Class 0 (Compatible)    0.63        0.84       0.72        90
+Class 1 (Incompatible)  0.56        0.29       0.38        62
+
+Combined Accuracy: 0.62 | Total Samples: 152
+Validation Test Total比較 (並希望致歉，三個模型其中一個sample數量不一致，RF + Mordred model因為經Eddie建議後修復cid bug後增加4筆 sample set)
+
+Next Step
+1. mapping - umap (map  newly added 162: 0210_Compatibility_Testset_162 on training dataset:2024_Drug_compatibility_dataset.xlsx ) 
+2. top 20 API and excipient featuresof descriptor do cluster 
+3. Try excipient api embedding with  GitHub - Ramprasad-Group/polyBERT to have a better embedding on excipient polymer instead of small molecules
+
+
+ stability data
+ 1. temp, humidity, loading 
+ 2. formulation data heat map 646 data from preexisting paper
+
+
+
+ human loading 
+
+ customized and update database 
+ v.s.
+ generalized version
